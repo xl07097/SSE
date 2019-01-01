@@ -5,25 +5,25 @@ var formidable = require('formidable')
 
 /* GET home page. */
 router.route('/imageUpload')
-.post(function(req, res, next){
-    var form = new formidable.IncomingForm()
-    form.parse(req, function(err, fields, files) {
-       if(err){
-            throw new Error(err);
-       }
-        //fields接收文字,files接收文件(视频，图片，压缩包等)
+    .post(function (req, res, next) {
+        var form = new formidable.IncomingForm()
+        form.parse(req, function (err, fields, files) {
+            if (err) {
+                throw new Error(err);
+            }
+            //fields接收文字,files接收文件(视频，图片，压缩包等)
 
-        form.uploadDir = PUBLIC_PATH + 'images/';//上传目录
-        form.keepExtensions = true; //保留后缀
-        form.maxFieldsSize = 2*1024; //文件大小
-        var fileName = saveImage(files['file'], form.uploadDir);
+            form.uploadDir = PUBLIC_PATH + 'images/';//上传目录
+            form.keepExtensions = true; //保留后缀
+            form.maxFieldsSize = 2 * 1024; //文件大小
+            var fileName = saveImage(files['file'], form.uploadDir);
+        });
+        logger.info(req);
+        res.send({
+            code: 200,
+            msg: '实验'
+        });
     });
-    logger.info(req);
-    res.send({
-        code: 200,
-        msg: '实验'
-    });
-});
 
 
 /**
@@ -31,7 +31,7 @@ router.route('/imageUpload')
  * @param file 图片对象
  * @param uploadDir 图片保存目录
  */
-function saveImage(file,uploadDir) {
+function saveImage(file, uploadDir) {
     let extName = 'png';
     switch (file.type) {  //此处in_file  为页面端 <input type=file name=in_file>
         case 'image/jpeg':
@@ -48,14 +48,14 @@ function saveImage(file,uploadDir) {
     }
 
     const cr = fs.createReadStream(file)
-    const cw = fs.createWriteStream(uploadDir + Math.random()+"."+extName)
+    const cw = fs.createWriteStream(uploadDir + Math.random() + "." + extName)
 
-    try{
+    try {
         cr.pipe(cw);
-        cw.on('close',function(){
-            console.log('copy over');  
+        cw.on('close', function () {
+            console.log('copy over');
         });
-    }catch(error){
+    } catch (error) {
         console.log(error);
     }
     return true;
