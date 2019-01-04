@@ -3,8 +3,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var log4js = require('log4js'); //加载log4js模块
-const session = require('express-session')
-const uuid = require('uuid')
 
 // 分发路由
 var indexRouter = require('./routes/index');
@@ -14,25 +12,6 @@ var upload = require("./routes/upload")
 
 
 var app = express();
-
-const sessionStore = new session.MemoryStore({
-    reapInterval: 3600 * 1000
-});
-app.use(session({
-    genid: function (req) {
-        return uuid() // use UUIDs for session IDs
-    },
-    name: "sessionid",
-    secret: 'xueliang',
-    store: sessionStore,
-    resave: true, // 强制更新 session
-    saveUninitialized: false, //
-    cookie: {
-        secure: false,
-        maxAge: 3600 * 1000
-    }, // 过期时间
-    rolling: true
-}));
 
 //通过configure()配置log4js
 log4js.configure({
