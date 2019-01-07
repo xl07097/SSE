@@ -2,6 +2,10 @@
   "name": "sse",
   "version": "0.0.0",
   "private": true,
+  "repository": {
+    "type": "Git",
+    "url": "git@github.com:xl07097/SSE.git"
+  },
   "scripts": {
     "start": "node ./bin/www"
   },
