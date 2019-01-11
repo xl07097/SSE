@@ -14,7 +14,12 @@ let userSchema = new Schema({
     },
     password: String,
     age: Number,
-    avatar: String
+    avatar: String,
+    status: {
+        type: Number,
+        default: 1
+    },
+    createtime: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('users', userSchema);

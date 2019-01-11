@@ -1,20 +1,37 @@
 const users = require('./userModel');
-
 let user = {
-    insert: function () {
-        let insertUser = new users({
-            'name': 'tom', //用户账号
-            'password': '123456', //密码
-            'age': 37 //年龄
+    insert: function (options, callback) {
+        let adduser = new users({
+            "name": options.name, //用户账号
+            "password": "123456", //密码
+            "age": options.age, //年龄
+            "avatar": options.avatar
         });
-
-        insertUser.save(function (err, res) {
+        user.select({
+            "name": options.name
+        }, function (err, data) {
             if (err) {
                 console.log("Error:" + err);
+                callback(err);
             } else {
-                console.log("Res:" + res);
+                if (data.length) {
+                    callback(null, {
+                        status: false,
+                    })
+                } else {
+                    adduser.save(function (err, res) {
+                        if (err) {
+                            console.log("Error:" + err);
+                            callback(err);
+                        } else {
+                            res.status = true;
+                            callback(null, res);
+                        }
+                    });
+                }
             }
-        });
+        })
+
     },
 
 
@@ -41,24 +58,28 @@ let user = {
     //找到一条记录并更新
     //Model.findOneAndUpdate([conditions], [update], [options],[callback])
 
-    updateById: function (id, data) {
-        let ids = '56f2558b2dd74855a345edb2';
-        let updatestr = {
-            'password': 'abcd'
-        };
+    updateById: function (id, data, callback) {
         /**
          * 通过id更新
          * Model.findByIdAndUpdate(id, [update], [options], [callback])
          */
-        users.findByIdAndUpdate(ids, updatestr, function (err, res) {
+        users.findByIdAndUpdate(id, data, function (err, result) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err);
             } else {
-                console.log("Res:" + res);
+                callback(null, result)
             }
         })
     },
-
+    updateStatusById: function (id, params,callback) {
+        user.updateById(id, {status:params.status},function(err, result){
+            if(err){
+                callback(err);
+            }else{
+                callback(null, result);
+            }
+        })
+    },
     delete: function () {
         let wherestr = {
             'name': 'Tracy McGrady'
@@ -79,32 +100,28 @@ let user = {
         })
     },
 
-    select: function (param,callback) {
-        let wherestr = {
-            'name': param.name,
-            'password': param.password
-        };
+    select: function (param, callback) {
         /**
          * Model.find(conditions, [fields], [options], [callback])
          * [fields] 查询输出的字段  1表示查询输出该字段，0表示不输出
          *
          */
-        users.find(wherestr, function (err, res) {
+        users.find(param, function (err, res) {
             if (err) {
                 console.log("Error:" + err);
+                callback(err);
             } else {
-                callback(res);
+                callback(null, res);
             }
         })
     },
 
-    selectById: function () {
-        let id = '56f261fb448779caa359cb73';
+    selectById: function (params) {
         /**
          * 根据_id查询
          * Model.findById(id, [fields], [options], [callback])
          */
-        users.findById(id, function (err, res) {
+        users.findById(params.id, function (err, res) {
             if (err) {
                 console.log("Error:" + err);
             } else {
@@ -135,37 +152,59 @@ let user = {
      * Model.count(conditions, [callback])
      * 数量查询
      */
-    selectCount: function () {
+    selectCount: function (params, callback) {
         let wherestr = {};
+        if (params.name && params.name.trim()) {
+            wherestr.name = {
+                $regex: new RegExp(params.name)
+            }
+        }
 
-        users.count(wherestr, function (err, res) {
+        users.count(wherestr, function (err, result) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err)
             } else {
-                console.log("Res:" + res);
+                callback(null, result)
             }
         })
     },
 
-    selectPage: function () {
-        let pageSize = 5; //一页多少条
-        let currentPage = 1; //当前第几页
+    selectPage: function (params, callback) {
+        let size = params.size; //一页多少条
+        let page = params.page; //当前第几页
         let sort = {
-            'logindate': -1
+            // 'logindate': -1
         }; //排序（按登录时间倒序）
         let condition = {}; //条件
-        let skipnum = (currentPage - 1) * pageSize; //跳过数
+        if (params.name && params.name.trim()) {
+            condition.name = {
+                $regex: /m/i
+            }
+        }
+
+        let skipnum = (page - 1) * size; //跳过数
 
         /**
          * 分页查询
          */
-        users.find(condition).skip(skipnum).limit(pageSize).sort(sort).exec(function (err, res) {
+        user.selectCount(params, function (err, count) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err)
             } else {
-                console.log("Res:" + res);
+                users.find(condition).skip(skipnum).limit(size).sort(sort).exec(function (err, result) {
+                    if (err) {
+                        callback(err)
+                    } else {
+                        callback(null, {
+                            total: count,
+                            data: result
+                        })
+                    }
+                })
             }
+
         })
+
     }
 
 };
@@ -186,4 +225,8 @@ module.exports = user
  * Model.findOneAndUpdate([conditions], [update], [options], [callback])　//查找一条记录并更新
  */
 
-user.insert();
+user.updateStatusById("5c383d65cf400a3df4b3df4d",{
+    status: 2
+}, function (err, res) {
+    console.log(res)
+})

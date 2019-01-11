@@ -31,11 +31,81 @@ router.route('/info')
         });
     })
 
-router.post('/usercenter', function (req, res) {
+
+router.post('/addUser', function (req, res) {
+    let body = req.body;
+    if (!body.name || !body.name.trim()) {
+        res.json({
+            code: 201,
+            msg: '用户名不能为空'
+        })
+        return false;
+    }
+
+    if (!body.age || !body.age.trim()) {
+        res.json({
+            code: 201,
+            msg: '年龄不能为空'
+        })
+        return false;
+    }
+
+    if (!body.avatar || !body.avatar.trim()) {
+        res.json({
+            code: 201,
+            msg: '头像图片不能为空'
+        })
+        return false;
+    }
+
+    user.insert(body, function (err, data) {
+        if (err) {
+            res.json({
+                code: 406,
+                msg: "数据插入错误",
+                data: err
+            })
+        } else {
+            if (!data.status) {
+                res.send({
+                    code: 406,
+                    msg: "用户已存在",
+                })
+            } else {
+                res.send({
+                    code: 200,
+                    msg: "用户添加成功"
+                })
+            }
+        }
+    })
+});
+
+
+router.post('/userList', function (req, res) {
     let query = {
-        name: req.body.name,
-        password: req.body.password
+        page: req.body.page,
+        size: req.body.size
     };
+    if (req.body.name) {
+        query.name = req.body.name
+    }
+    user.selectPage(query, function (err, result) {
+        if (err) {
+            res.json({
+                code: 406,
+                msg: '查询错误',
+                data: result
+            })
+        } else {
+            res.json({
+                code: 200,
+                total: result.total,
+                data: result.data
+            })
+        }
+    })
+
 });
 
 router.get('/login', function (req, res) {
@@ -44,17 +114,25 @@ router.get('/login', function (req, res) {
             name: req.query.name,
             password: req.query.password
         };
-        user.select(query, function (data) {
-            if (data.length) {
-                res.send({
-                    code: 200,
-                    msg: "登陆成功"
+        user.select(query, function (err, data) {
+            if (err) {
+                res.json({
+                    code: 401,
+                    msg: '登陆错误'
                 })
             } else {
-                res.send({
-                    code: 202,
-                    msg: "用户不存在"
-                })
+                if (data.length) {
+                    res.send({
+                        code: 200,
+                        msg: "登陆成功",
+                        data: data
+                    })
+                } else {
+                    res.send({
+                        code: 202,
+                        msg: "用户不存在"
+                    })
+                }
             }
         })
     } else {
@@ -64,5 +142,6 @@ router.get('/login', function (req, res) {
         })
     }
 });
+
 
 module.exports = router;
