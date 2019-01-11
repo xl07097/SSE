@@ -1,17 +1,14 @@
 const users = require('./userModel');
-let user = {
-    insert: function (options, callback) {
-        let adduser = new users({
-            "name": options.name, //用户账号
+let operation = {
+    insert: function (params, callback) {
+        let user = new users({
+            "name": params.name, //用户账号
             "password": "123456", //密码
-            "age": options.age, //年龄
-            "avatar": options.avatar
+            "age": params.age, //年龄
+            "avatar": params.avatar
         });
-        user.select({
-            "name": options.name
-        }, function (err, data) {
+        operation.select({"name": params.name}, function (err, data) {
             if (err) {
-                console.log("Error:" + err);
                 callback(err);
             } else {
                 if (data.length) {
@@ -19,9 +16,8 @@ let user = {
                         status: false,
                     })
                 } else {
-                    adduser.save(function (err, res) {
+                    user.save(function (err, res) {
                         if (err) {
-                            console.log("Error:" + err);
                             callback(err);
                         } else {
                             res.status = true;
@@ -31,26 +27,17 @@ let user = {
                 }
             }
         })
-
     },
 
-
-    update: function () {
-
-        let wherestr = {
-            'name': 'Tracy McGrady'
-        };
-        let updatestr = {
-            'password': 'zzzz'
-        };
+    update: function (params,data,callback) {
         /**
          * Model.update(conditions, update, [options], [callback])
          */
-        users.update(wherestr, updatestr, function (err, res) {
+        users.update(params, data, function (err, res) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err);
             } else {
-                console.log("Res:" + res);
+                callback(null, result)
             }
         })
     },
@@ -71,8 +58,9 @@ let user = {
             }
         })
     },
+
     updateStatusById: function (id, params,callback) {
-        user.updateById(id, {status:params.status},function(err, result){
+        operation.updateById(id, {status:params.status},function(err, result){
             if(err){
                 callback(err);
             }else{
@@ -80,24 +68,29 @@ let user = {
             }
         })
     },
-    delete: function () {
-        let wherestr = {
-            'name': 'Tracy McGrady'
-        };
+
+    delete: function (params, callback) {
         // Model.findByIdAndRemove(id, [options], [callback])
         // Model.findOneAndRemove(conditions, [options], [callback])
+        users.findByIdAndRemove(params.id, function (err, res) {
+            if(err){
+                callback(err);
+            }else{
+                callback(null, result);
+            }
+        })
 
         /**
          *  删除
          *  Model.remove(conditions, [callback])
          */
-        users.remove(wherestr, function (err, res) {
-            if (err) {
-                console.log("Error:" + err);
-            } else {
-                console.log("Res:" + res);
-            }
-        })
+        // users.remove(wherestr, function (err, res) {
+        //     if (err) {
+        //         console.log("Error:" + err);
+        //     } else {
+        //         console.log("Res:" + res);
+        //     }
+        // })
     },
 
     select: function (param, callback) {
@@ -108,7 +101,6 @@ let user = {
          */
         users.find(param, function (err, res) {
             if (err) {
-                console.log("Error:" + err);
                 callback(err);
             } else {
                 callback(null, res);
@@ -116,21 +108,21 @@ let user = {
         })
     },
 
-    selectById: function (params) {
+    selectById: function (params, callback) {
         /**
          * 根据_id查询
          * Model.findById(id, [fields], [options], [callback])
          */
-        users.findById(params.id, function (err, res) {
+        users.findById(params.id, function (err, result) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err)
             } else {
-                console.log("Res:" + res);
+                callback(null, result)
             }
         })
     },
 
-    selectByReg: function () {
+    selectByReg: function (params, callback) {
         let whereStr = {
             'name': {
                 $regex: /m/i
@@ -139,11 +131,11 @@ let user = {
         /**
          * 模糊查询
          */
-        users.find(whereStr, function (err, res) {
+        users.find(params, function (err, res) {
             if (err) {
-                console.log("Error:" + err);
+                callback(err)
             } else {
-                console.log("Res:" + res);
+                callback(null, result)
             }
         })
     },
@@ -187,7 +179,7 @@ let user = {
         /**
          * 分页查询
          */
-        user.selectCount(params, function (err, count) {
+        operation.selectCount(params, function (err, count) {
             if (err) {
                 callback(err)
             } else {
@@ -202,14 +194,11 @@ let user = {
                     }
                 })
             }
-
         })
-
     }
-
 };
 
-module.exports = user
+module.exports = operation
 
 /**
  * LBS地址位置
@@ -225,8 +214,8 @@ module.exports = user
  * Model.findOneAndUpdate([conditions], [update], [options], [callback])　//查找一条记录并更新
  */
 
-user.updateStatusById("5c383d65cf400a3df4b3df4d",{
-    status: 2
-}, function (err, res) {
-    console.log(res)
-})
+// operation.updateStatusById("5c383d65cf400a3df4b3df4d",{
+//     status: 2
+// }, function (err, res) {
+//     console.log(res)
+// })

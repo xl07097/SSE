@@ -8,7 +8,7 @@ router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
 
-router.route('/info')
+router.route('/changeUserStatus')
     .get(function (req, res, next) {
         res.send(JSON.stringify({
             code: 200,
@@ -20,7 +20,37 @@ router.route('/info')
             }
         }));
     }).post(function (req, res, next) {
-        res.send({
+        if(!req.body.id){
+            res.send({
+                code: 406,
+                msg: 'id不能为空'
+            });
+        }else if(!req.body.status){
+            res.send({
+                code: 406,
+                msg: '用户状态不能为空'
+            });
+        }else{
+            user.updateStatusById(req.body.id,{status: req.body.status}, function (err, data) {
+                if (err) {
+                    res.json({
+                        code: 406,
+                        msg: "用户状态修改失败",
+                        data: err
+                    })
+                } else {
+                    res.send({
+                        code: 200,
+                        msg: "用户状态修改成功",
+                    })
+                }
+            })
+        }
+    })
+
+    router.route('/userInfo')
+    .get(function (req, res, next) {
+        res.send(JSON.stringify({
             code: 200,
             data: {
                 name: "jack",
@@ -28,8 +58,33 @@ router.route('/info')
                 sex: 1,
                 job: 'engine'
             }
-        });
+        }));
+    }).post(function (req, res, next) {
+        if(!req.body.id){
+            res.send({
+                code: 406,
+                msg: 'id不能为空'
+            });
+        }else{
+            user.selectById({id: req.body.id}, function (err, data) {
+                if (err) {
+                    res.json({
+                        code: 406,
+                        msg: "数据查询错误",
+                        data: err
+                    })
+                } else {
+                    res.send({
+                        code: 200,
+                        data: data
+                    })
+                }
+            })
+        }
     })
+
+
+    
 
 
 router.post('/addUser', function (req, res) {
