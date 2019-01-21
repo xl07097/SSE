@@ -20,18 +20,20 @@ router.route('/changeUserStatus')
             }
         }));
     }).post(function (req, res, next) {
-        if(!req.body.id){
+        if (!req.body.id) {
             res.send({
                 code: 406,
                 msg: 'id不能为空'
             });
-        }else if(!req.body.status){
+        } else if (!req.body.status) {
             res.send({
                 code: 406,
                 msg: '用户状态不能为空'
             });
-        }else{
-            user.updateStatusById(req.body.id,{status: req.body.status}, function (err, data) {
+        } else {
+            user.updateStatusById(req.body.id, {
+                status: req.body.status
+            }, function (err, data) {
                 if (err) {
                     res.json({
                         code: 406,
@@ -48,7 +50,8 @@ router.route('/changeUserStatus')
         }
     })
 
-    router.route('/userInfo')
+
+router.route('/userInfo')
     .get(function (req, res, next) {
         res.send(JSON.stringify({
             code: 200,
@@ -60,13 +63,15 @@ router.route('/changeUserStatus')
             }
         }));
     }).post(function (req, res, next) {
-        if(!req.body.id){
+        if (!req.body.id) {
             res.send({
                 code: 406,
                 msg: 'id不能为空'
             });
-        }else{
-            user.selectById({id: req.body.id}, function (err, data) {
+        } else {
+            user.selectById({
+                id: req.body.id
+            }, function (err, data) {
                 if (err) {
                     res.json({
                         code: 406,
@@ -82,9 +87,6 @@ router.route('/changeUserStatus')
             })
         }
     })
-
-
-    
 
 
 router.post('/addUser', function (req, res) {
@@ -160,7 +162,6 @@ router.post('/userList', function (req, res) {
             })
         }
     })
-
 });
 
 router.get('/login', function (req, res) {

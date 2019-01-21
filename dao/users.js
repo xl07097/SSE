@@ -1,4 +1,6 @@
 const users = require('./userModel');
+const ObjectID = require('mongodb-core').BSON.ObjectID;
+
 let operation = {
     insert: function (params, callback) {
         let user = new users({
@@ -125,7 +127,7 @@ let operation = {
     selectByReg: function (params, callback) {
         let whereStr = {
             'name': {
-                $regex: /m/i
+                $regex: new RegExp(params.name)
             }
         };
         /**
@@ -170,7 +172,7 @@ let operation = {
         let condition = {}; //条件
         if (params.name && params.name.trim()) {
             condition.name = {
-                $regex: /m/i
+                $regex: new RegExp(params.name)
             }
         }
 
@@ -214,8 +216,6 @@ module.exports = operation
  * Model.findOneAndUpdate([conditions], [update], [options], [callback])　//查找一条记录并更新
  */
 
-// operation.updateStatusById("5c383d65cf400a3df4b3df4d",{
-//     status: 2
-// }, function (err, res) {
-//     console.log(res)
-// })
+operation.select({"_id": new ObjectID("5c382dd0f76d864d2831a9d8")}, function (err, res) {
+    console.log(res)
+})
