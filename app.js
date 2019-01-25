@@ -2,13 +2,13 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var logs = require('./config/logs')
+var logs = require('./config/logs');
 
 // 分发路由
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var cars = require("./routes/cars")
-var upload = require("./routes/upload")
+var cars = require("./routes/cars");
+var upload = require("./routes/upload");
 
 
 var app = express();
@@ -19,7 +19,6 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
     res.header("Access-Control-Allow-Headers", "content-type,X-Requested-With,auth_token");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("Access-Control-Max-Age", 3600);
     res.header("X-Powered-By", ' 3.2.1');
     next();
 });
