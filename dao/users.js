@@ -154,7 +154,7 @@ let operation = {
             }
         }
 
-        users.count(wherestr, function (err, result) {
+        users.countDocuments(wherestr, function (err, result) {
             if (err) {
                 callback(err)
             } else {
