@@ -1,9 +1,9 @@
-const users = require('./userModel');
+const Users = require('./userModel');
 const ObjectID = require('mongodb-core').BSON.ObjectID;
 
 let operation = {
     insert: function (params, callback) {
-        let user = new users({
+        let user = new Users({
             "name": params.name, //用户账号
             "password": "123456", //密码
             "age": params.age, //年龄
@@ -35,7 +35,7 @@ let operation = {
         /**
          * Model.update(conditions, update, [options], [callback])
          */
-        users.update(params, data, function (err, res) {
+        Users.update(params, data, function (err, res) {
             if (err) {
                 callback(err);
             } else {
@@ -52,7 +52,7 @@ let operation = {
          * 通过id更新
          * Model.findByIdAndUpdate(id, [update], [options], [callback])
          */
-        users.findByIdAndUpdate(id, data, function (err, result) {
+        Users.findByIdAndUpdate(id, data, function (err, result) {
             if (err) {
                 callback(err);
             } else {
@@ -74,7 +74,7 @@ let operation = {
     delete: function (params, callback) {
         // Model.findByIdAndRemove(id, [options], [callback])
         // Model.findOneAndRemove(conditions, [options], [callback])
-        users.findByIdAndRemove(params.id, function (err, res) {
+        Users.findByIdAndRemove(params.id, function (err, res) {
             if(err){
                 callback(err);
             }else{
@@ -86,7 +86,7 @@ let operation = {
          *  删除
          *  Model.remove(conditions, [callback])
          */
-        // users.remove(wherestr, function (err, res) {
+        // Users.remove(wherestr, function (err, res) {
         //     if (err) {
         //         console.log("Error:" + err);
         //     } else {
@@ -101,7 +101,7 @@ let operation = {
          * [fields] 查询输出的字段  1表示查询输出该字段，0表示不输出
          *
          */
-        users.find(param, function (err, res) {
+        Users.find(param, function (err, res) {
             if (err) {
                 callback(err);
             } else {
@@ -115,7 +115,7 @@ let operation = {
          * 根据_id查询
          * Model.findById(id, [fields], [options], [callback])
          */
-        users.findById(params.id, function (err, result) {
+        Users.findById(params.id, function (err, result) {
             if (err) {
                 callback(err)
             } else {
@@ -133,7 +133,7 @@ let operation = {
         /**
          * 模糊查询
          */
-        users.find(params, function (err, res) {
+        Users.find(params, function (err, res) {
             if (err) {
                 callback(err)
             } else {
@@ -154,7 +154,7 @@ let operation = {
             }
         }
 
-        users.countDocuments(wherestr, function (err, result) {
+        Users.countDocuments(wherestr, function (err, result) {
             if (err) {
                 callback(err)
             } else {
@@ -185,7 +185,7 @@ let operation = {
             if (err) {
                 callback(err)
             } else {
-                users.find(condition).skip(skipnum).limit(size).sort(sort).exec(function (err, result) {
+                Users.find(condition).skip(skipnum).limit(size).sort(sort).exec(function (err, result) {
                     if (err) {
                         callback(err)
                     } else {
