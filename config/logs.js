@@ -5,7 +5,7 @@ var log4js = require('log4js'); //加载log4js模块
 log4js.configure({
     appenders: {
         cheese: {
-            type: "datefile", //文件输出
+            type: "dateFile", //文件输出
             filename: './logs/log', //输出日志的文件夹/文件名，不会自动生成文件夹，请先自行创建logs文件夹
             alwaysIncludePattern: true,
             pattern: "-yyyy-MM-dd-hh.log",
