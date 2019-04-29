@@ -1,7 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let user = require("../dao/users");
-let uuid = require('uuid');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -99,7 +98,7 @@ router.post('/addUser', function (req, res) {
         return false;
     }
 
-    if (!body.age || !body.age.trim()) {
+    if (!body.age || !body.age.toString().trim()) {
         res.json({
             code: 201,
             msg: '年龄不能为空'
@@ -134,6 +133,48 @@ router.post('/addUser', function (req, res) {
                     msg: "用户添加成功"
                 })
             }
+        }
+    })
+});
+
+router.post('/updateUser', function (req, res) {
+    let body = req.body;
+    if (!body.name || !body.name.trim()) {
+        res.json({
+            code: 201,
+            msg: '用户名不能为空'
+        })
+        return false;
+    }
+
+    if (!body.age || !body.age.toString().trim()) {
+        res.json({
+            code: 201,
+            msg: '年龄不能为空'
+        })
+        return false;
+    }
+
+    if (!body.avatar || !body.avatar.trim()) {
+        res.json({
+            code: 201,
+            msg: '头像图片不能为空'
+        })
+        return false;
+    }
+
+    user.updateById(body._id, body, function (err, data) {
+        if (err) {
+            res.json({
+                code: 406,
+                msg: "数据插入错误",
+                data: err
+            })
+        } else {
+            res.send({
+                code: 200,
+                msg: "用户添加成功"
+            })
         }
     })
 });
