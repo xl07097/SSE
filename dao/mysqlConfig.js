@@ -25,6 +25,3 @@ let query = function (sql,params,callback) {
     })
 };
 
-query('select * from t_user',[],function(result){
-    console.log(result);
-});
