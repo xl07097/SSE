@@ -46,5 +46,6 @@ app.use("/api/upload", upload)
 
 
 //全局变量
+global.FILE_URL = 'http://192.168.1.49:3002/';
 global.PUBLIC_PATH = __dirname + '/public/';
 module.exports = app;

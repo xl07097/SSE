@@ -1,64 +1,43 @@
-var express = require('express');
-var router = express.Router();
-var fs = require('fs');
-var formidable = require('formidable')
+let express = require('express');
+let router = express.Router();
+let upload = require('../utils/uploadUtils');
 
-/* GET home page. */
-router.route('/imageUpload')
-    .post(function (req, res, next) {
-        var form = new formidable.IncomingForm()
-        form.parse(req, function (err, fields, files) {
-            if (err) {
-                throw new Error(err);
-            }
-            //fields接收文字,files接收文件(视频，图片，压缩包等)
-
-            form.uploadDir = PUBLIC_PATH + 'images/';//上传目录
-            form.keepExtensions = true; //保留后缀
-            form.maxFieldsSize = 2 * 1024; //文件大小
-            var fileName = saveImage(files['file'], form.uploadDir);
-        });
-        logger.info(req);
-        res.send({
-            code: 200,
-            msg: '实验'
-        });
-    });
-
-
-/**
- * 保存图片
- * @param file 图片对象
- * @param uploadDir 图片保存目录
- */
-function saveImage(file, uploadDir) {
-    let extName = 'png';
-    switch (file.type) {  //此处in_file  为页面端 <input type=file name=in_file>
-        case 'image/jpeg':
-            extName = 'jpeg';
-            break;
-        case 'image/jpg':
-            extName = 'jpg';
-            break;
-        case 'image/png':
-            extName = 'png';
-            break;
-        case 'image/x-png':
-            extName = 'png';
-    }
-
-    const cr = fs.createReadStream(file)
-    const cw = fs.createWriteStream(uploadDir + Math.random() + "." + extName)
-
-    try {
-        cr.pipe(cw);
-        cw.on('close', function () {
-            console.log('copy over');
-        });
-    } catch (error) {
-        console.log(error);
-    }
-    return true;
+let errorCode = {
+    "LIMIT_PART_COUNT": 'too many parts',
+    "LIMIT_FILE_SIZE": 'file too large',
+    "LIMIT_FILE_COUNT": 'too many filed',
+    "LIMIT_FIELD_KEY": "field name too long",
+    "LIMIT_FIELD_VALUE": 'field value to long',
+    "LIMIT_FIELD_COUNT": 'too many fields',
+    "LIMIT_UNEXPECTED_FILE": 'unexpected filed'
 }
+router.post('/uploadfile', function (req, res, next) {
+    upload(req, res, function (err) {
+        if (err) {
+            res.send({
+                code: 301,
+                msg: err,
+            });
+        } else {
+            let json = req.files.map(item => {
+                return {
+                    destination: FILE_URL + item.destination,
+                    encoding: item.encoding,
+                    fieldname: item.fieldname,
+                    filename: item.filename,
+                    mimetype: item.mimetype,
+                    originalname: item.originalname,
+                    path: FILE_URL + item.path,
+                    size: item.size,
+                }
+            });
+            res.send({
+                "code": 200,
+                "data": json
+            });
+        }
+    })
+
+});
 
 module.exports = router;

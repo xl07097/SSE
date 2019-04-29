@@ -15,6 +15,10 @@ let userSchema = new Schema({
     password: String,
     age: Number,
     avatar: String,
+    gender: {
+        type: Number,
+        default: 1 // 1 男  2 女
+    },
     status: {
         type: Number,
         default: 1
