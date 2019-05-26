@@ -216,6 +216,3 @@ module.exports = operation
  * Model.findOneAndUpdate([conditions], [update], [options], [callback])　//查找一条记录并更新
  */
 
-operation.select({"_id": new ObjectID("5c382dd0f76d864d2831a9d8")}, function (err, res) {
-    console.log(res)
-})
