@@ -58,6 +58,7 @@ router.route('/lists')
 })
 .post(function (req, res, next) {
     logger.info(req.body.name);
+    logger.info(req.headers.token);
     res.send({
         "code": 200,
         "data": [{
