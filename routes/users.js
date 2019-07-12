@@ -18,20 +18,28 @@ router.route('/changeUserStatus')
                 job: 'engine'
             }
         }));
-    }).post(function (req, res, next) {
-        if (!req.body.id) {
+    })
+    .post(function (req, res, next) {
+        
+        let {id, status} = req.body;
+
+        if (!id) {
             res.send({
                 code: 406,
                 msg: 'id不能为空'
             });
-        } else if (!req.body.status) {
+            return false;
+        } 
+        if (!status) {
             res.send({
                 code: 406,
                 msg: '用户状态不能为空'
             });
-        } else {
-            user.updateStatusById(req.body.id, {
-                status: req.body.status
+            return false;
+        } 
+            
+        user.updateStatusById(id, {
+                status: status
             }, function (err, data) {
                 if (err) {
                     res.json({
@@ -46,7 +54,7 @@ router.route('/changeUserStatus')
                     })
                 }
             })
-        }
+        
     })
 
 
@@ -61,7 +69,8 @@ router.route('/userInfo')
                 job: 'engine'
             }
         }));
-    }).post(function (req, res, next) {
+    })
+    .post(function (req, res, next) {
         if (!req.body.id) {
             res.send({
                 code: 406,
