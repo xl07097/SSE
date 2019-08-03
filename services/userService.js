@@ -1,5 +1,5 @@
 let user = require("../dao/users");
-let count = 11369;
+let count = 82155;
 function add(params, cb){
     user.insert(params, function (err, data) {
         if (err) {
@@ -21,5 +21,5 @@ setInterval(() => {
             
     })
     count++
-},50)
+},10)
 
