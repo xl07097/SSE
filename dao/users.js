@@ -1,4 +1,4 @@
-const Users = require('./userModel');
+const Users = require('../Schema/userModel');
 const ObjectID = require('mongodb-core').BSON.ObjectID;
 
 let operation = {
