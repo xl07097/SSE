@@ -1,5 +1,5 @@
 const Users = require('../Schema/userModel');
-const ObjectID = require('mongodb-core').BSON.ObjectID;
+const ObjectId = require('mongodb').ObjectId;
 
 let operation = {
     insert: function (params, callback) {
@@ -167,8 +167,8 @@ let operation = {
         let size = params.size; //一页多少条
         let page = params.page; //当前第几页
         let sort = {
-            // 'logindate': -1
-        }; //排序（按登录时间倒序）
+            'createtime': 1
+        };
         let condition = {}; //条件
         if (params.name && params.name.trim()) {
             condition.name = {
