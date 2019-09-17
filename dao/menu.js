@@ -1,5 +1,5 @@
 const Menu = require('../Schema/menuModel');
-const ObjectID = require('mongodb-core').BSON.ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 
 let operation = {
     insert: function (params, callback) {
@@ -126,11 +126,11 @@ let operation = {
     },
 
     selectByReg: function (params, callback) {
-        let whereStr = {
-            'name': {
-                $regex: new RegExp(params.name)
-            }
-        };
+        // let whereStr = {
+        //     'name': {
+        //         $regex: new RegExp(params.name)
+        //     }
+        // };
         /**
          * 模糊查询
          */
@@ -217,3 +217,4 @@ module.exports = operation
  * Model.findOneAndUpdate([conditions], [update], [options], [callback])　//查找一条记录并更新
  */
 
+ 

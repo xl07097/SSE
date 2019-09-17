@@ -1,4 +1,4 @@
-let mongoose = require('./connection');
+let mongoose = require('../dao/connection');
 
 let Schema = mongoose.Schema; //  创建模型
 

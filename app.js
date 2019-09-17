@@ -9,7 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cars = require("./routes/cars");
 var upload = require("./routes/upload");
-
+var system = require("./routes/system");
 
 var app = express();
 
@@ -44,7 +44,7 @@ app.use('/favicon.ico', function (req, res) {
 app.use('/api/users', usersRouter);
 app.use("/api/cars", cars)
 app.use("/api/upload", upload)
-
+app.use("/api/system", system)
 
 //全局变量
 global.FILE_URL = 'http://192.168.1.49:3002/';
