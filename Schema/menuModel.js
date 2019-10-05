@@ -25,7 +25,7 @@ let menuSchema = new Schema({
         type: Number,
         default: 1
     },
-    createtime: { type: Date, default: Date.now },
+    createtime: { type: Date, default: Date.now() },
 });
 
 module.exports = mongoose.model('menu', menuSchema);
