@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
-const {select} = require('../services/menuService');
+const { select } = require('../services/menuService');
+const array2Tree = require("../utils/treeUtils");
 
 router.route('/systemMenu')
     .post(function (req, res, next) {
@@ -15,7 +16,7 @@ router.route('/systemMenu')
             } else {
                 res.json({
                     code: 200,
-                    data:result,
+                    data: array2Tree(result),
                     msg: err
                 })
             }
