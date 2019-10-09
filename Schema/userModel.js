@@ -19,11 +19,20 @@ let userSchema = new Schema({
         type: Number,
         default: 1 // 1 男  2 女
     },
+    account: {
+        type: String,
+    },
+    role: {
+        type: String,
+    },
+    dept: {
+        type: String,  
+    },
     status: {
         type: Number,
         default: 1
     },
-    createtime: { type: Date, default: Date.now },
+    createtime: { type: Date, default: Date.now() },
 });
 
 module.exports = mongoose.model('users', userSchema);

@@ -19,7 +19,7 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", req.headers.origin);
     res.header("Access-Control-Allow-Headers", "content-type,X-Requested-With,token");
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("Access-Control-Max-Age", 3600);
+    res.header("Access-Control-Max-Age", "3600");
     res.header("X-Powered-By", ' 3.2.1');
     next();
 });
