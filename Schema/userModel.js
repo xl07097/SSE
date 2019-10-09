@@ -19,6 +19,10 @@ let userSchema = new Schema({
         type: Number,
         default: 1 // 1 男  2 女
     },
+    telphone: {
+        type: String,
+        index: true
+    },
     account: {
         type: String,
     },
