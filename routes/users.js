@@ -195,7 +195,8 @@ router.post('/userList', function (req, res) {
         size: req.body.size
     };
     if (req.body.name) {
-        query.name = req.body.name
+        query.name = req.body.name,
+        query.telphone = req.body.name
     }
     user.selectPage(query, function (err, result) {
         if (err) {

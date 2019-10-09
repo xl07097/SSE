@@ -170,10 +170,14 @@ let operation = {
             'createtime': 1
         };
         let condition = {}; //条件
-        if (params.name && params.name.trim()) {
+        let name = params.name;
+        if (name && name.trim()) {
             condition.name = {
-                $regex: new RegExp(params.name)
-            }
+                $regex: new RegExp(name)
+            };
+            // condition.telphone = {
+            //     $regex: new RegExp(name)
+            // }
         }
 
         let skipnum = (page - 1) * size; //跳过数
@@ -181,6 +185,7 @@ let operation = {
         /**
          * 分页查询
          */
+        // { $or: [{ "by": "luyaran" }, { "title": "MongoDB 教程" }] }
         operation.selectCount(params, function (err, count) {
             if (err) {
                 callback(err)
