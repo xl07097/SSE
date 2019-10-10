@@ -10,16 +10,20 @@ function add(params, cb){
     })
 }
 
-setInterval(() => {
+let timer = setInterval(() => {
     let name = `jack${count}`;
     add({
         "gender": 1,
         "name": name,
         "age": 26,
-        "avatar": "http://localhost:3002/images/2019/8/3/88cffcf8-daec-42d1-99dd-bd4ce2b68f6e.jpg",
+        "telphone": "13689784512",
+        "account": "",
+        "role": "",
+        "dept": "", //http://localhost:9101/public/images/2019/10/10/bcea2939-2fcc-4602-bda8-0835ed9c5b92.png
+        "avatar": "http://localhost:9101/public/images/2019/8/6/6bf9def0-61d7-43aa-b7ef-c0b064016943.png",
     }, function(){
             
     })
-    count++
-},10)
+    ++count
+},100)
 
