@@ -15,6 +15,7 @@ var app = express();
 
 
 app.all("*", function (req, res, next) {
+    console.log(decodeURIComponent(req.headers['token']));
     res.header("Access-Control-Allow-Credentials", true);
     res.header("Access-Control-Allow-Origin", req.headers.origin);
     res.header("Access-Control-Allow-Headers", "content-type,X-Requested-With,token");
@@ -43,7 +44,7 @@ app.use('/favicon.ico', function (req, res) {
 });
 app.use('/api/users', usersRouter);
 app.use("/api/cars", cars)
-app.use("/api/upload", upload)
+// app.use("/api/upload", upload)
 app.use("/api/system", system)
 
 //全局变量
