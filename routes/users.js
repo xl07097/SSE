@@ -229,6 +229,7 @@ router.get('/login', function (req, res) {
                 })
             } else {
                 if (data.length) {
+                    delete data.password;
                     res.send({
                         code: 200,
                         msg: "登陆成功",
