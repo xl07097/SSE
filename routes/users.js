@@ -20,8 +20,8 @@ router.route('/changeUserStatus')
         }));
     })
     .post(function (req, res, next) {
-        
-        let {id, status} = req.body;
+
+        let { id, status } = req.body;
 
         if (!id) {
             res.send({
@@ -29,32 +29,32 @@ router.route('/changeUserStatus')
                 msg: 'id不能为空'
             });
             return false;
-        } 
+        }
         if (!status) {
             res.send({
                 code: 406,
                 msg: '用户状态不能为空'
             });
             return false;
-        } 
-            
+        }
+
         user.updateStatusById(id, {
-                status: status
-            }, function (err, data) {
-                if (err) {
-                    res.json({
-                        code: 406,
-                        msg: "用户状态修改失败",
-                        data: err
-                    })
-                } else {
-                    res.send({
-                        code: 200,
-                        msg: "用户状态修改成功",
-                    })
-                }
-            })
-        
+            status: status
+        }, function (err, data) {
+            if (err) {
+                res.json({
+                    code: 406,
+                    msg: "用户状态修改失败",
+                    data: err
+                })
+            } else {
+                res.send({
+                    code: 200,
+                    msg: "用户状态修改成功",
+                })
+            }
+        })
+
     })
 
 
@@ -196,7 +196,7 @@ router.post('/userList', function (req, res) {
     };
     if (req.body.name) {
         query.name = req.body.name,
-        query.telphone = req.body.name
+            query.telphone = req.body.name
     }
     user.selectPage(query, function (err, result) {
         if (err) {
@@ -229,11 +229,11 @@ router.get('/login', function (req, res) {
                 })
             } else {
                 if (data.length) {
-                    delete data.password;
+                    delete data[0].password;
                     res.send({
                         code: 200,
                         msg: "登陆成功",
-                        data: data
+                        data: data[0]
                     })
                 } else {
                     res.send({
