@@ -13,12 +13,12 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let temp = 'public/images/' + new Date().getFullYear() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getDate();
         let myPath = path.resolve(temp);
-        fs.existsSync(myPath) == false && mkdirs(myPath);
+        !fs.existsSync(myPath) && mkdirs(myPath);
         cb(null, temp)
     },
     filename(req, file, cb) {
-        const filenameArr = file.originalname.split('.');
-        cb(null, uuid() + '.' + filenameArr[filenameArr.length - 1]);
+        // const filenameArr = file.originalname.split('.');
+        cb(null, uuid() + '.' + path.extname(file.originalname));
     }
 });
 
