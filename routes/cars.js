@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.route('/lists')
 .get(function(req, res, next){
-    res.send({
+    res.send(JSON.stringify({
         "code": 200,
         "data": [{
                 "id": "1",
@@ -54,7 +54,7 @@ router.route('/lists')
                 "introduction": "gagagag"
             }
         ]
-    })
+    }))
 })
 .post(function (req, res, next) {
     logger.info(req.body.name);
