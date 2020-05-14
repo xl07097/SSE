@@ -1,7 +1,7 @@
-const user = require("../dao/menu");
+const menu = require("../dao/menu");
 
 function select(params, cb) {
-    user.select(params, function (err, data) {
+    menu.select(params, function (err, data) {
         if (err) {
             cb(err)
         } else {
