@@ -102,7 +102,7 @@ let operation = {
          * [fields] 查询输出的字段  1表示查询输出该字段，0表示不输出
          *
          */
-        Menu.find(param, function (err, res) {
+        Menu.find(param).sort({ createtime: 1 }).exec(function (err, res) {
             if (err) {
                 callback(err);
             } else {
