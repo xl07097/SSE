@@ -15,6 +15,12 @@ let menuSchema = new Schema({
     path: {
         type: String,
     },
+    name: {
+        type: String  
+    },
+    component: {
+        type: String  
+    },
     icon: {
         type: String
     },
