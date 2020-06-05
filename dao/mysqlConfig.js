@@ -3,7 +3,7 @@ let mysql = require('mysql');
 let config = {
     host: 'localhost',
     port: 3306,
-    database: 'qfdb',
+    database: 'notes',
     user: 'root',
     passport: ''
 };
