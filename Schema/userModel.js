@@ -14,7 +14,7 @@ let userSchema = new Schema({
 	},
 	password: {
 		type: String,
-		default: "123456",
+		default: '123456',
 	},
 	age: Number,
 	avatar: String,
@@ -24,6 +24,7 @@ let userSchema = new Schema({
 	},
 	telphone: {
 		type: String,
+		default: '18688888888',
 		index: true,
 	},
 	account: {
@@ -31,6 +32,7 @@ let userSchema = new Schema({
 	},
 	role: {
 		type: String,
+		default: 'admin',
 	},
 	dept: {
 		type: String,

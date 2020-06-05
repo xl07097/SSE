@@ -1,5 +1,5 @@
 let user = require('../dao/users');
-let count = 0;
+let count = 1;
 function add(params, cb) {
 	user.insert(params, function (err, data) {
 		if (err) {
@@ -17,15 +17,15 @@ let timer = setInterval(() => {
 			name: name,
 			age: 26,
 			avatar:
-				'http://122.51.12.951:9101/public/images/2019/8/6/6bf9def0-61d7-43aa-b7ef-c0b064016943.png',
+				'http://localhost:9101/public/images/2019/8/6/6bf9def0-61d7-43aa-b7ef-c0b064016943.png',
 			gender: 1,
-			telphone: '',
-			account: '',
-			role: '',
-			dept: '',
-			status: 1
+			telphone: '18688888888',
+			account: name,
+			role: 'admin',
+			dept: '123456789',
+			status: 1,
 		},
 		function () {}
 	);
 	++count;
-}, 100);
+}, 1000);
