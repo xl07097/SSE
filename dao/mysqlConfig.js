@@ -5,7 +5,7 @@ let config = {
     port: 3306,
     database: 'notes',
     user: 'root',
-    passport: ''
+    passport: 'XUElou07097'
 };
 
 let pool = mysql.createPool(config);

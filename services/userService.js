@@ -17,15 +17,15 @@ let timer = setInterval(() => {
 			name: name,
 			age: 26,
 			avatar:
-				'http://localhost:9101/public/images/2019/8/6/6bf9def0-61d7-43aa-b7ef-c0b064016943.png',
+				'https://upload.zhiqiuge.com/public/images/2019/8/6/6bf9def0-61d7-43aa-b7ef-c0b064016943.png',
 			gender: 1,
 			telphone: '18688888888',
 			account: name,
-			role: 'admin',
+			role: 1,
 			dept: '123456789',
 			status: 1,
 		},
-		function () {}
+		function () { }
 	);
 	++count;
 }, 1000);
